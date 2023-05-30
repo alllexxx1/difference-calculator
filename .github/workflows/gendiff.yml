@@ -1,4 +1,4 @@
-name: T&L
+name: CI
 on:
   - push
 jobs:
