@@ -15,3 +15,6 @@ package-reinstall:
 
 lint:
 	poetry run flake8
+
+test-coverage:
+	poetry run pytest --cov=python-project-50 --cov-report xml
