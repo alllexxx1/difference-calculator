@@ -1,0 +1,14 @@
+{
+  - address: 21 Jump Street
+    age: 30
+  + city: Charlotte
+  - email: john.doe@example.com
+  + email: marry@example.com
+  - gender: male
+  + gender: female
+  - married: false
+  + married: true
+  - name: John Doe
+  + name: Marry Roe
+    state: North Carolina
+}
