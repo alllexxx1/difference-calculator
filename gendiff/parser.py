@@ -7,7 +7,7 @@ def get_parser():
     parser.add_argument('first_file')
     parser.add_argument('second_file')
     parser.add_argument('-f', '--format',
-                        choices=['stylish', '2', '3'],
+                        choices=['stylish', 'plain', '3'],
                         default='stylish',
                         help='set format of output '
                              '(default: stylish)')

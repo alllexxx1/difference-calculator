@@ -1,0 +1,6 @@
+Property 'address' was removed
+Property 'city' was added with value: 'Charlotte'
+Property 'email' was updated. From 'john.doe@example.com' to 'marry@example.com'
+Property 'gender' was updated. From 'male' to 'female'
+Property 'married' was updated. From false to true
+Property 'name' was updated. From 'John Doe' to 'Marry Roe'
