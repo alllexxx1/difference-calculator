@@ -1,0 +1,46 @@
+[
+    {
+        "status": "deleted",
+        "key": "address",
+        "value": "21 Jump Street"
+    },
+    {
+        "status": "unchanged",
+        "key": "age",
+        "value": 30
+    },
+    {
+        "status": "added",
+        "key": "city",
+        "value": "Charlotte"
+    },
+    {
+        "status": "changed",
+        "key": "email",
+        "value1": "john.doe@example.com",
+        "value2": "marry@example.com"
+    },
+    {
+        "status": "changed",
+        "key": "gender",
+        "value1": "male",
+        "value2": "female"
+    },
+    {
+        "status": "changed",
+        "key": "married",
+        "value1": false,
+        "value2": true
+    },
+    {
+        "status": "changed",
+        "key": "name",
+        "value1": "John Doe",
+        "value2": "Marry Roe"
+    },
+    {
+        "status": "unchanged",
+        "key": "state",
+        "value": "North Carolina"
+    }
+]

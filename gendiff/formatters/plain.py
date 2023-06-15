@@ -29,9 +29,9 @@ def get_plain(data, path=''):
 def normalize_value(value):
     if isinstance(value, dict):
         value = '[complex value]'
-    elif value in (False, True) or value in ('false', 'true'):
+    elif value in (False, True):
         value = str(value).lower()
-    elif value is None or value == 'null':
+    elif value is None:
         value = 'null'
     elif isinstance(value, int):
         value = str(value)

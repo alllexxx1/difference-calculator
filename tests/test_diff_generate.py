@@ -6,7 +6,6 @@ FLAT_JSON1 = './tests/fixtures/input/flat1.json'
 FLAT_JSON2 = './tests/fixtures/input/flat2.json'
 FLAT_YAML1 = './tests/fixtures/input/flat1.yaml'
 FLAT_YAML2 = './tests/fixtures/input/flat2.yaml'
-
 NESTED_JSON1 = './tests/fixtures/input/nested1.json'
 NESTED_JSON2 = './tests/fixtures/input/nested2.json'
 NESTED_YAML1 = './tests/fixtures/input/nested1.yaml'
@@ -18,6 +17,9 @@ STYLISH_NESTED = './tests/fixtures/output/stylish_nested.txt'
 PLAIN_FLAT_JSON = './tests/fixtures/output/plain_flat_json.txt'
 PLAIN_FLAT_YAML = './tests/fixtures/output/plain_flat_yaml.txt'
 PLAIN_NESTED = './tests/fixtures/output/plain_nested.txt'
+JSONFORMAT_FLAT_JSON = './tests/fixtures/output/jsonformat_flat_json.txt'
+JSONFORMAT_FLAT_YAML = './tests/fixtures/output/jsonformat_flat_yaml.txt'
+JSONFORMAT_NESTED = './tests/fixtures/output/jsonformat_nested.txt'
 
 
 @pytest.mark.parametrize('input1, input2, output, style', [
@@ -29,6 +31,11 @@ PLAIN_NESTED = './tests/fixtures/output/plain_nested.txt'
     (FLAT_YAML1, FLAT_YAML2, PLAIN_FLAT_YAML, 'plain'),
     (NESTED_JSON1, NESTED_JSON2, PLAIN_NESTED, 'plain'),
     (NESTED_YAML1, NESTED_YAML2, PLAIN_NESTED, 'plain'),
+    (FLAT_JSON1, FLAT_JSON2, JSONFORMAT_FLAT_JSON, 'json'),
+    (FLAT_YAML1, FLAT_YAML2, JSONFORMAT_FLAT_YAML, 'json'),
+    (NESTED_JSON1, NESTED_JSON2, JSONFORMAT_NESTED, 'json'),
+    (NESTED_YAML1, NESTED_YAML2, JSONFORMAT_NESTED, 'json'),
+
 ])
 def test_generate_diff(input1, input2, output, style):
     with open(output) as file:
