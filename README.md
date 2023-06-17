@@ -60,5 +60,5 @@ $ make install
 ```
 $ make build
 $ make package-install
-$ build <file_path1> <file_path1> --format
+$ gendiff <file_path1> <file_path1> --format
 ```
