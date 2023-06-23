@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
 
-from gendiff.parser import get_parser
+from gendiff.parser import parse_args
 from gendiff import generate_diff
 
 
 def main():
-    args = get_parser().parse_args()
+    args = parse_args()
     print(generate_diff(args.first_file, args.second_file, args.format))
 
 

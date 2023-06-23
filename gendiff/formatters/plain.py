@@ -1,6 +1,10 @@
-def get_plain(data, path=''):
+def get_plain(data):
+    return display_diff(data)
+
+
+def display_diff(current_data, path=''):
     lines = []
-    for diff in data:
+    for diff in current_data:
         status = diff['status']
         if status == 'deleted':
             key = diff['key']
@@ -21,7 +25,7 @@ def get_plain(data, path=''):
         elif status == 'parent':
             children = diff['value']
             key = diff['key']
-            lines.append(get_plain(children, path=path + f'{key}.'))
+            lines.append(display_diff(children, path=path + f'{key}.'))
     result = '\n'.join(lines)
     return result
 

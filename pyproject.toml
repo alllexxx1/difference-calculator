@@ -1,9 +1,14 @@
 [tool.poetry]
 name = "hexlet-code"
 version = "0.1.0"
-description = ""
+description = "This is a project package that contains an utility that determines the difference between two data structures"
 authors = ["alllexxx1 <alekkorpachyov@gmail.com>"]
 readme = "README.md"
+repository = "https://github.com/alllexxx1/python-project-50.git"
+classifiers = [
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
 packages = [
 	{ include = "gendiff" },
 ]

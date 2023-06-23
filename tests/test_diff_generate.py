@@ -1,5 +1,6 @@
 import pytest
 from gendiff import generate_diff
+from gendiff.deserialization import load_file
 
 
 FLAT_JSON1 = './tests/fixtures/input/flat1.json'
@@ -41,3 +42,15 @@ def test_generate_diff(input1, input2, output, style):
     with open(output) as file:
         expected_diff = file.read()
     assert generate_diff(input1, input2, style) == expected_diff
+
+
+def test_generate_diff_exception():
+    with pytest.raises(Exception) as e:
+        generate_diff(FLAT_JSON1, FLAT_JSON2, 'unavailable_format')
+    assert str(e.value) == 'Invalid formatter!'
+
+
+def test_load_file_exception():
+    with pytest.raises(Exception) as e:
+        load_file(STYLISH_FLAT_JSON)
+    assert str(e.value) == 'Invalid format!'
