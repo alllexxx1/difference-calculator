@@ -1,63 +1,94 @@
+from gendiff.find_diff import get_status
+
+
 INDENT_COUNT = 4
 
 
 def get_stylish(data):
-    return display_diff(data, 0)
+    return display_diff(data, depth=1)
 
 
-def display_diff(current_data, depth, replacer=' '):  # noqa: C901
+def display_diff(current_data, depth, replacer=' '):
     if not isinstance(current_data, (list, dict)):
         return str(current_data)
-    indent_size1 = depth * INDENT_COUNT + 2
-    indent_size2 = depth * INDENT_COUNT + 4
-    indent1 = replacer * indent_size1
-    indent2 = replacer * indent_size2
-    current_indent = replacer * depth * INDENT_COUNT
+
+    indent1 = replacer * ((INDENT_COUNT * depth) - 2)
+    indent2 = replacer * INDENT_COUNT * depth
+    closing_indent = replacer * INDENT_COUNT * (depth - 1)
+
+    lines = make_lines(current_data, indent1, indent2, closing_indent, depth)
+    return '\n'.join(lines)
+
+
+def make_lines(current_data, indent1, indent2, closing_indent, depth):
     lines = []
     if isinstance(current_data, dict):
         for k, v in current_data.items():
-            lines.append(f'{indent2}{k}: {display_diff(v, depth + 1)}')
+            lines.append(f'{indent2}{k}: {display_diff(v, depth=depth + 1)}')
     for diff in current_data:
-        if 'status' in diff:
-            status = diff['status']
-            if status == 'deleted':
-                value = normalize_value(diff['value'])
-                key = '- ' + diff['key']
-                lines.append(
-                    f'{indent1}{key}: {display_diff(value, depth + 1)}'
-                )
-            elif status == 'added':
-                value = normalize_value(diff['value'])
-                key = '+ ' + diff['key']
-                lines.append(
-                    f'{indent1}{key}: {display_diff(value, depth + 1)}'
-                )
-            elif status == 'unchanged':
-                value = normalize_value(diff['value'])
-                key = diff['key']
-                lines.append(
-                    f'{indent2}{key}: {display_diff(value, depth + 1)}'
-                )
-            elif status == 'changed':
-                value1 = normalize_value(diff['value1'])
-                value2 = normalize_value(diff['value2'])
-                key1 = '- ' + diff['key']
-                key2 = '+ ' + diff['key']
-                lines.append(
-                    f'{indent1}{key1}: {display_diff(value1, depth + 1)}'
-                )
-                lines.append(
-                    f'{indent1}{key2}: {display_diff(value2, depth + 1)}'
-                )
-            elif status == 'parent':
-                children = normalize_value(diff['value'])
-                key = diff['key']
-                lines.append(
-                    f'{indent2}{key}: {display_diff(children, depth + 1)}'
-                )
-        pass
-    result = ['{'] + lines + [current_indent + '}']
-    return '\n'.join(result)
+        status = get_status(diff)
+        add_deleted(diff, status, indent1, depth, lines)
+        add_added(diff, status, indent1, depth, lines)
+        add_unchanged(diff, status, indent2, depth, lines)
+        add_changed(diff, status, indent1, depth, lines)
+        add_parent(diff, status, indent2, depth, lines)
+    result = ['{'] + lines + [closing_indent + '}']
+    return result
+
+
+def add_deleted(diff, status, indent1, depth, lines):
+    if status == 'deleted':
+        value = normalize_value(diff['value'])
+        key = '- ' + diff['key']
+        lines.append(
+            f'{indent1}{key}: {display_diff(value, depth=depth + 1)}'
+        )
+    return lines
+
+
+def add_added(diff, status, indent1, depth, lines):
+    if status == 'added':
+        value = normalize_value(diff['value'])
+        key = '+ ' + diff['key']
+        lines.append(
+            f'{indent1}{key}: {display_diff(value, depth=depth + 1)}'
+        )
+    return lines
+
+
+def add_unchanged(diff, status, indent2, depth, lines):
+    if status == 'unchanged':
+        value = normalize_value(diff['value'])
+        key = diff['key']
+        lines.append(
+            f'{indent2}{key}: {display_diff(value, depth=depth + 1)}'
+        )
+    return lines
+
+
+def add_changed(diff, status, indent1, depth, lines):
+    if status == 'changed':
+        value1 = normalize_value(diff['value1'])
+        value2 = normalize_value(diff['value2'])
+        key1 = '- ' + diff['key']
+        key2 = '+ ' + diff['key']
+        lines.append(
+            f'{indent1}{key1}: {display_diff(value1, depth=depth + 1)}'
+        )
+        lines.append(
+            f'{indent1}{key2}: {display_diff(value2, depth=depth + 1)}'
+        )
+    return lines
+
+
+def add_parent(diff, status, indent2, depth, lines):
+    if status == 'parent':
+        children = normalize_value(diff['children'])
+        key = diff['key']
+        lines.append(
+            f'{indent2}{key}: {display_diff(children, depth=depth + 1)}'
+        )
+    return lines
 
 
 def normalize_value(value):

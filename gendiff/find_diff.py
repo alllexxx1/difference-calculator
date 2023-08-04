@@ -24,7 +24,7 @@ def find_diff(data1, data2):
             diff.append({
                 'status': 'parent',
                 'key': key,
-                'value': find_diff(data1[key], data2[key])
+                'children': find_diff(data1[key], data2[key])
             })
         else:
             diff.append({
@@ -34,3 +34,9 @@ def find_diff(data1, data2):
                 'value2': data2[key]
             })
     return diff
+
+
+def get_status(diff):
+    if 'status' in diff:
+        return diff['status']
+    pass

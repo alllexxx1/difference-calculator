@@ -23,7 +23,7 @@ def display_diff(current_data, path=''):
                 f"Property '{path}{key}' was updated. From {value1} to {value2}"
             )
         elif status == 'parent':
-            children = diff['value']
+            children = diff['children']
             key = diff['key']
             lines.append(display_diff(children, path=path + f'{key}.'))
     result = '\n'.join(lines)
