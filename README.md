@@ -20,20 +20,13 @@ Report generation in the form of plain text, stylish and json.
 ### 📎 Flat file comparison
 | 📄 json |                                               
 |:-------:|
-<a href="https://asciinema.org/a/591277" target="_blank"><img src="https://asciinema.org/a/591277.svg" width="842" height="300" /></a>
-
-| yaml 📃 |
-|:-------:|
-<a href="https://asciinema.org/a/591280" target="_blank"><img src="https://asciinema.org/a/591280.svg" width="842" height="300" /></a>
+[![asciicast](https://asciinema.org/a/591277.svg)](https://asciinema.org/a/591277)
 
 ### 📎 Nested file comparison
-| 📄 json |                                               
-|:-------:|
-<a href="https://asciinema.org/a/591282" target="_blank"><img src="https://asciinema.org/a/591282.svg" width="842" height="300" /></a>
 
 | yaml 📃 |                                                  
 |:-------:|
-<a href="https://asciinema.org/a/591285" target="_blank"><img src="https://asciinema.org/a/591285.svg" width="842" height="300" /></a>
+[![asciicast](https://asciinema.org/a/591285.svg)](https://asciinema.org/a/591285)
 
 ## 🗂 Plain format
 

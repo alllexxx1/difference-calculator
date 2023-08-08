@@ -1,8 +1,8 @@
 def get_plain(data):
-    return display_diff(data)
+    return make_diff(data)
 
 
-def display_diff(current_data, path=''):
+def make_diff(current_data, path=''):
     lines = []
     for diff in current_data:
         status = diff['status']
@@ -25,7 +25,7 @@ def display_diff(current_data, path=''):
         elif status == 'parent':
             children = diff['children']
             key = diff['key']
-            lines.append(display_diff(children, path=path + f'{key}.'))
+            lines.append(make_diff(children, path=path + f'{key}.'))
     result = '\n'.join(lines)
     return result
 

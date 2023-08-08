@@ -6,8 +6,8 @@ import os
 def load_file(file_path):
     with open(file_path) as file:
         data = file.read()
-        extension = os.path.splitext(file_path)[1]
-    return parse_data(data, extension)
+        _, ext = os.path.splitext(file_path)
+    return parse_data(data, ext)
 
 
 def parse_data(data, extension):

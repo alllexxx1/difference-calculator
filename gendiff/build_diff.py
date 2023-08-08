@@ -1,4 +1,4 @@
-def find_diff(data1, data2):
+def build_diff(data1, data2):
     keys = data1.keys() | data2.keys()
     diff = []
     for key in sorted(keys):
@@ -24,7 +24,7 @@ def find_diff(data1, data2):
             diff.append({
                 'status': 'parent',
                 'key': key,
-                'children': find_diff(data1[key], data2[key])
+                'children': build_diff(data1[key], data2[key])
             })
         else:
             diff.append({
@@ -34,9 +34,3 @@ def find_diff(data1, data2):
                 'value2': data2[key]
             })
     return diff
-
-
-def get_status(diff):
-    if 'status' in diff:
-        return diff['status']
-    pass
