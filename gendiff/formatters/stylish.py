@@ -1,4 +1,5 @@
 INDENT_COUNT = 4
+REPLACER = ' '
 
 
 def get_stylish(data):
@@ -8,82 +9,87 @@ def get_stylish(data):
 def make_diff(current_data, depth):
     if not isinstance(current_data, (list, dict)):
         return str(current_data)
-    lines = make_lines(current_data, depth, replacer=' ')
+    lines = make_lines(current_data, depth)
     return '\n'.join(lines)
 
 
-def make_lines(current_data, depth, replacer=' '):
-    indent1 = replacer * ((INDENT_COUNT * depth) - 2)
-    indent2 = replacer * INDENT_COUNT * depth
-    closing_indent = replacer * INDENT_COUNT * (depth - 1)
+def make_lines(current_data, depth):
+    indent = REPLACER * INDENT_COUNT * depth
+    closing_indent = REPLACER * INDENT_COUNT * (depth - 1)
     lines = []
 
     if isinstance(current_data, dict):
         for k, v in current_data.items():
-            lines.append(f'{indent2}{k}: {make_diff(v, depth=depth + 1)}')
+            lines.append(f'{indent}{k}: {make_diff(v, depth=depth + 1)}')
     for diff in current_data:
-        add_lines(diff, indent1, indent2, depth, lines)
+        add_lines(diff, depth, lines)
 
     result = ['{'] + lines + [closing_indent + '}']
     return result
 
 
-def add_lines(diff, indent1, indent2, depth, lines):
+def add_lines(diff, depth, lines):
     status = get_status(diff)
     if status == 'deleted':
-        add_deleted(diff, indent1, depth, lines)
+        add_deleted(diff, depth, lines)
     elif status == 'added':
-        add_added(diff, indent1, depth, lines)
+        add_added(diff, depth, lines)
     elif status == 'unchanged':
-        add_unchanged(diff, indent2, depth, lines)
+        add_unchanged(diff, depth, lines)
     elif status == 'changed':
-        add_changed(diff, indent1, depth, lines)
+        add_changed(diff, depth, lines)
     elif status == 'parent':
-        add_parent(diff, indent2, depth, lines)
+        add_parent(diff, depth, lines)
+    return lines
 
 
-def add_deleted(diff, indent1, depth, lines):
+def add_deleted(diff, depth, lines):
+    indent = REPLACER * ((INDENT_COUNT * depth) - 2)
     value = normalize_value(diff['value'])
     key = '- ' + diff['key']
     lines.append(
-        f'{indent1}{key}: {make_diff(value, depth=depth + 1)}'
+        f'{indent}{key}: {make_diff(value, depth=depth + 1)}'
     )
 
 
-def add_added(diff, indent1, depth, lines):
+def add_added(diff, depth, lines):
+    indent = REPLACER * ((INDENT_COUNT * depth) - 2)
     value = normalize_value(diff['value'])
     key = '+ ' + diff['key']
     lines.append(
-        f'{indent1}{key}: {make_diff(value, depth=depth + 1)}'
+        f'{indent}{key}: {make_diff(value, depth=depth + 1)}'
     )
 
 
-def add_unchanged(diff, indent2, depth, lines):
+def add_unchanged(diff, depth, lines):
+    indent = REPLACER * INDENT_COUNT * depth
     value = normalize_value(diff['value'])
     key = diff['key']
     lines.append(
-        f'{indent2}{key}: {make_diff(value, depth=depth + 1)}'
+        f'{indent}{key}: {make_diff(value, depth=depth + 1)}'
     )
 
 
-def add_changed(diff, indent1, depth, lines):
+def add_changed(diff, depth, lines):
+    indent = REPLACER * ((INDENT_COUNT * depth) - 2)
     value1 = normalize_value(diff['value1'])
     value2 = normalize_value(diff['value2'])
     key1 = '- ' + diff['key']
     key2 = '+ ' + diff['key']
     lines.append(
-        f'{indent1}{key1}: {make_diff(value1, depth=depth + 1)}'
+        f'{indent}{key1}: {make_diff(value1, depth=depth + 1)}'
     )
     lines.append(
-        f'{indent1}{key2}: {make_diff(value2, depth=depth + 1)}'
+        f'{indent}{key2}: {make_diff(value2, depth=depth + 1)}'
     )
 
 
-def add_parent(diff, indent2, depth, lines):
+def add_parent(diff, depth, lines):
+    indent = REPLACER * INDENT_COUNT * depth
     children = normalize_value(diff['children'])
     key = diff['key']
     lines.append(
-        f'{indent2}{key}: {make_diff(children, depth=depth + 1)}'
+        f'{indent}{key}: {make_diff(children, depth=depth + 1)}'
     )
 
 

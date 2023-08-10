@@ -6,25 +6,22 @@ def make_diff(current_data, path=''):
     lines = []
     for diff in current_data:
         status = diff['status']
+        key = diff['key']
         if status == 'deleted':
-            key = diff['key']
             lines.append(f"Property '{path}{key}' was removed")
         elif status == 'added':
             value = normalize_value(diff['value'])
-            key = diff['key']
             lines.append(
                 f"Property '{path}{key}' was added with value: {value}"
             )
         elif status == 'changed':
             value1 = normalize_value(diff['value1'])
             value2 = normalize_value(diff['value2'])
-            key = diff['key']
             lines.append(
                 f"Property '{path}{key}' was updated. From {value1} to {value2}"
             )
         elif status == 'parent':
             children = diff['children']
-            key = diff['key']
             lines.append(make_diff(children, path=path + f'{key}.'))
     result = '\n'.join(lines)
     return result
